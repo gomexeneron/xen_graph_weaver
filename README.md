@@ -62,7 +62,7 @@ xen_graph_weaver/
 ### 1. Installation
 
 ```bash
-git clone https://github.com/<your-username>/xen_graph_weaver.git
+git clone https://github.com/gomexeneron/xen_graph_weaver.git
 cd xen_graph_weaver
 pip install -r requirements.txt
 ```
