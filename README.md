@@ -9,6 +9,16 @@
 
 ---
 
+## 📸 Compliance Dashboard Preview
+
+### Interactive Dark-Mode Network & Forensic Inspector
+![Xen Graph Weaver Compliance Dashboard](assets/compliance_dashboard.png)
+
+### Automated Forensic AML & Sybil Compliance Brief
+![Automated Forensic AML Brief Modal](assets/forensic_brief_modal.png)
+
+---
+
 ## 🌟 Key Features
 
 - **Heterogeneous Bipartite Graph Construction**: NetworkX multi-directed graph modeling Account entities alongside shared metadata anchors (Device fingerprints, Plaid bank accounts, IP relays, and Emails).
@@ -27,6 +37,9 @@
 
 ```
 xen_graph_weaver/
+├── assets/                  # UI screenshots & compliance dashboard previews
+│   ├── compliance_dashboard.png
+│   └── forensic_brief_modal.png
 ├── models/
 │   ├── base.py              # Dataclass serialization base model
 │   ├── entity.py            # AccountNode, MetadataNode, TransferEdge, SharedEdge schemas
