@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xen Graph Weaver - Compliance AML & Forensic Canvas</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <!-- Vis.js Network Standalone -->
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">XW</div>
+      <div class="brand-title">
+        <h1>XEN GRAPH WEAVER</h1>
+        <span>AML & Forensic Intelligence</span>
+      </div>
+    </div>
+
+    <!-- Live Compliance KPIs -->
+    <div class="header-kpis">
+      <div class="kpi-chip">
+        <span class="kpi-label">Entities</span>
+        <span class="kpi-val" id="kpiEntities">--</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-label">Audit Vol</span>
+        <span class="kpi-val" id="kpiVolume">--</span>
+      </div>
+      <div class="kpi-chip highlight-danger">
+        <span class="kpi-label">Active Rings</span>
+        <span class="kpi-val" id="kpiRings">--</span>
+      </div>
+      <div class="kpi-chip highlight-danger">
+        <span class="kpi-label">High-Risk SAR</span>
+        <span class="kpi-val" id="kpiHighRisk">--</span>
+      </div>
+      <div class="kpi-chip highlight-cyan">
+        <span class="kpi-label">Graph Density</span>
+        <span class="kpi-val" id="kpiDensity">--</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="header-actions">
+      <button class="btn btn-primary" id="btnPropagateRisk" title="Run PPR and Contamination Diffusion">
+        ⚡ Run Risk Diffusion
+      </button>
+      <button class="btn" id="btnShowSummary" title="View Executive Forensic Brief">
+        📋 Forensic Brief
+      </button>
+      <button class="btn btn-danger" id="btnResetSim" title="Reset and reseed simulation">
+        🔄 Reseed Sim
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Body Grid -->
+  <main class="app-body">
+    
+    <!-- Left Sidebar: Rings & Anomaly Explorer -->
+    <aside class="left-sidebar">
+      <div class="panel-header">
+        <h2>Detected AML Rings</h2>
+        <span class="badge-count" id="ringBadgeCount">0</span>
+      </div>
+      <div class="ring-list" id="ringContainer">
+        <!-- Rendered dynamically by app.js -->
+        <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+          Scanning ledger topology...
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center Canvas Area -->
+    <section class="canvas-area">
+      
+      <!-- Canvas Overlay Controls -->
+      <div class="canvas-toolbar">
+        <div class="canvas-controls-left">
+          <div class="filter-group">
+            <label for="riskFilter">Min Risk:</label>
+            <input type="range" id="riskFilter" min="0" max="1" step="0.05" value="0" />
+            <span id="riskFilterVal" style="font-family: var(--font-mono); font-size: 11px; min-width: 28px;">0.00</span>
+          </div>
+          <div class="filter-group" style="margin-left: 8px;">
+            <input type="checkbox" id="chkMetadata" checked />
+            <label for="chkMetadata">Anchors</label>
+          </div>
+        </div>
+
+        <div class="canvas-controls-right">
+          <div class="filter-group">
+            <input type="text" id="nodeSearch" placeholder="Search account/node ID..." style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; padding: 4px 8px; color: #fff; font-size: 11px; width: 140px;" />
+          </div>
+          <button class="btn" id="btnTogglePhysics" style="padding: 4px 8px; font-size: 11px;">
+            ⏸ Pause Physics
+          </button>
+          <button class="btn" id="btnFitCanvas" style="padding: 4px 8px; font-size: 11px;">
+            ⛶ Fit View
+          </button>
+        </div>
+      </div>
+
+      <!-- Vis.js Graph Canvas Container -->
+      <div id="networkCanvas"></div>
+
+      <!-- Canvas Legend -->
+      <div class="canvas-legend">
+        <div class="legend-item">
+          <div class="legend-dot account"></div> Account Node
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot device"></div> Device Fingerprint
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot bank"></div> Plaid Bank Anchor
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot ip"></div> IP / Proxy Anchor
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot danger"></div> High-Risk / Flagged
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Sidebar: Node Forensic Inspector -->
+    <aside class="right-sidebar">
+      <div class="panel-header">
+        <h2>Forensic Inspector</h2>
+      </div>
+      <div class="inspector-body" id="inspectorContent">
+        <div class="empty-inspector">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <p>Select any node or ring member to inspect transaction flows, Plaid anchors, and contamination metrics.</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Executive Forensic Brief Modal -->
+  <div class="modal-backdrop" id="summaryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Executive Forensic Compliance Brief</h2>
+        <button class="btn" id="btnCloseModal" style="padding: 4px 10px;">✕</button>
+      </div>
+      <div class="modal-body" id="modalBodyContent">
+        <pre id="narrativeText">Loading report...</pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="btnCopyReport">📋 Copy Report</button>
+        <button class="btn btn-primary" id="btnCloseModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
