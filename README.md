@@ -1,6 +1,7 @@
 # 🕸️ Xen Graph Weaver
 ### Anti-Money Laundering (AML) & Sybil Network Intelligence Platform
 
+[![CI Test Suite](https://github.com/gomexeneron/xen_graph_weaver/actions/workflows/ci.yml/badge.svg)](https://github.com/gomexeneron/xen_graph_weaver/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-17%20Passed-brightgreen.svg)]()
